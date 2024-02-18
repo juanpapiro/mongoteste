@@ -1,0 +1,66 @@
+services:
+  svr1:
+    image: mongo:latest
+    container_name: svr1
+    command: mongod --configsvr --replSet cfgrsvr --port 10001 --dbpath /data/db --bind_ip_all
+    ports:
+      - 10001:10001
+    networks:
+      - mongonetwork
+    volumes:
+      - svr1:/data/db
+
+  svr2:
+    image: mongo:latest
+    container_name: svr2
+    command: mongod --configsvr --replSet cfgrsvr --port 10002 --dbpath /data/db --bind_ip_all
+    ports:
+      - 10002:10002
+    networks:
+      - mongonetwork
+    volumes:
+      - svr2:/data/db
+
+  svr3:
+    image: mongo:latest
+    container_name: svr3
+    command: mongod --configsvr --replSet cfgrsvr --port 10003 --dbpath /data/db --bind_ip_all
+    ports:
+      - 10003:10003
+    networks:
+      - mongonetwork
+    volumes:
+      - svr3:/data/db
+
+  srd1:
+    image: mongo:latest
+    container_name: srd1
+    command: mongod --shardsvr --port 11001 --replSet cfgsrd1 --dbpath /data/db --bind_ip_all
+    ports:
+      - 11001:11001
+    networks:
+      - mongonetwork
+    volumes:
+      - srd1:/data/db
+
+  srd2:
+    image: mongo:latest
+    container_name: srd2
+    command: mongod --shardsvr --port 11002 --replSet cfgsrd2 --dbpath /data/db --bind_ip_all
+    ports:
+      - 11002:11002
+    networks:
+      - mongonetwork
+    volumes:
+      - srd2:/data/db
+
+networks:
+  mongonetwork:
+    driver: bridge
+
+volumes:
+  svr1:
+  svr2:
+  svr3:
+  srd1:
+  srd2:

@@ -1,0 +1,18 @@
+services:
+  router:
+    image: mongo:latest
+    container_name: router
+    command: mongos --configdb cfgrsvr/svr1:10001,svr2:10002,svr3:10003 --port 13001 --bind_ip_all #--bind_ip 0.0.0.0 #--bind_ip_all #--bind_ip_all
+    ports:
+      - 13001:13001
+    networks:
+      - mongonetwork
+    volumes:
+      - router:/data/configdb
+
+networks:
+  mongonetwork:
+    driver: bridge
+
+volumes:
+  router:
